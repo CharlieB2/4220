@@ -1,8 +1,5 @@
 const yargs = require('yargs/yargs');
-
-
 const app = require('./app.js');
-
 
 yargs(process.argv.slice(2))
     // $0 expands the name of the file
@@ -10,7 +7,7 @@ yargs(process.argv.slice(2))
     // [] indicate the command options are optional
     .usage('$0: Usage <command> [options]')
     .command(
-        // command
+	// command
         // <> indicate the command argument is mandatory
         'getweapons',
         // description
@@ -30,8 +27,7 @@ yargs(process.argv.slice(2))
             if (args.id === string) {
                 // returns a list of weapons
 
-
-		    // app.getWeapons()
+		// app.getWeapons()
                 app.playPoker(args);
             } else {
                 console.log(“not a valid input”);
