@@ -7,33 +7,35 @@ yargs(process.argv.slice(2))
     // [] indicate the command options are optional
     .usage('$0: Usage <command> [options]')
     .command(
-	    // command
-        // <> indicate the command argument is mandatory
-        'getweapons',
-        // description
-        'Used to get weapons from the game',
+	    // command and description
+        'getWeapons', 'Used to get weapons from the game.',
         // builder
         (yargs) => {
             return yargs    
-                .option('weapontype', {
+                .option('weaponType', {
                     alias: 'wt',
                     describe: 'returns a list of weapons that match the keyword',
                     default: null,
                     type: 'string'
+                })
+                .option('weaponRarity', {
+                    alias: 'r',
+                    describe: 'returns a list of weapons dependant on rarity',
+                    default: null,
+                    type: 'int'
                 });
         },
         // handler
         (args) => {
-            if (args.id === string) {
-                // returns a list of weapons
-
-		// app.getWeapons()
-                app.playPoker(args);
+            if (args.weaponType || args.weaponRarity) {
+                // returns the list of weapons
+                app.getWeapons(args);
             } else {
                 console.log("not a valid input");
             }
         }
     )
+
     .command(
         // command
         // <> indicate the command argument is mandatory
@@ -56,6 +58,35 @@ yargs(process.argv.slice(2))
                 app.getMonsters(args);
             } else {
                 console.log("not a valid input");
+            }
+        }
+    )
+
+    .command(
+        // Command and Description
+        'getArmor', 'Searches for individual armor pieces based on type or rank.',
+        // Builder
+        (yargs) => {
+            return yargs
+                .option('armorType', {
+                    alias: 'ap',
+                    describe: 'Returns all armor pieces based on type. (i.e. chest, head, etc.)',
+                    default: null,
+                    type: 'string'
+                })
+                .option('armorRank', {
+                    alias: 'ar',
+                    describe: 'Returns all armor pieces based on rank.',
+                    default: null,
+                    type: 'string'
+                })
+        },
+        // Handler
+        (args) => {
+            if (args.armorType || args.armorRank) {
+                app.getArmor(args);
+            } else {
+                console.log('not a valid input');
             }
         }
     )

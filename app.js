@@ -1,40 +1,47 @@
+// Default Url for our database and requred superagent
+const base = 'https://mhw-db.com';
+const { jar } = require('superagent');
 const superagent = require('superagent');
 
-// Default Url for our database
-const base = 'https://mhw-db.com';
-
-const getWeapon =  async (weaponType) => {
+const getWeapons =  async (args) => {
 	try{
-		const drawUrl = `${base}/weapons?q={"type" : ${weaponType}}`;
-		// Below is another possible option for searching weapon types
-		// `${base}/weapons?q={“weapons.type”:${weaponType}}`;
-		const res = await superagent.get(drawUrl);
-		console.log(res);	
+		// Depending on which filter was called, uses if statement to properly search weapons
+		if (args.weaponType) {
+			// Even though none of the weapon types have a space within them and rely on '-',
+			// .replace is used for convienence of user
+			const drawUrl = `${base}/weapons?q={\"type\":\"${args.weaponType.replace('-', ' ')}\"}`;
+			const res = await superagent.get(drawUrl);
+			console.log(res.body);
+		} else if (args.weaponRarity) {
+			const drawUrl = `${base}/weapons?q={\"rarity\":${args.weaponRarity}}`;
+			const res = await superagent.get(drawUrl);
+			console.log(res.body);
+		}
 	} catch (error){
-      		console.log(error);
+			console.log(error);
 	}
 }
 
+// Calls a weapon directly by using their id
 const selectWeapon = async (id) => {
 	try{
 		const drawUrl = `${base}/weapons/${id}`;
 		const res = await superagent.get(drawUrl);
-		console.log(res);
+		console.log(res.body);
 	} catch (error) {
 		console.log(error);
 	}
 
 }
 
-
 // Main method to start the searchForMonsters command
 const getMonsters = async (args) => {
-	try{	
+	try{
 		if(args.monsterSpecies){
 			// if monster species paramter is selcted search for every monster of that species
 			// use .replace('-', ' ') as the API can contain two word species yet the cli doesn't accept a space between therefore
 			// to counter it we use the character '-' between the words
-			const drawUrl = `${base}/monsters?q={\"species\":\"${args.monsterSpecies.replace('-', ' ')}\"}`
+			const drawUrl = `${base}/monsters?q={\"species\":\"${args.monsterSpecies.replace('-', ' ')}\"}`;
 			const res = await superagent.get(drawUrl);
 			console.log(res.body);
 		}
@@ -43,7 +50,26 @@ const getMonsters = async (args) => {
 	}
 }
 
+// Method to search for armor pieces via type or rank
+const getArmor = async (args) => {
+	try {
+		if (args.armorType) {
+			const drawUrl = `${base}/armor?q={\"type\":\"${args.armorType}\"}`
+			const res = await superagent.get(drawUrl);
+			console.log(res.body);
+		} else if (args.armorRank) {
+			const drawUrl = `${base}/armor?q={\"rank\":\"${args.armorRank}\"}`
+			const res = await superagent.get(drawUrl);
+			console.log(res.body);
+		}
+	} catch(error) {
+		console.log(error);
+	}
+}
+
 // Exports
 module.exports = {
-	getMonsters
+	getMonsters,
+	getWeapons,
+	getArmor
 };
