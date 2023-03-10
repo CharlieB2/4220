@@ -7,7 +7,7 @@ yargs(process.argv.slice(2))
     // [] indicate the command options are optional
     .usage('$0: Usage <command> [options]')
     .command(
-	// command
+	    // command
         // <> indicate the command argument is mandatory
         'getweapons',
         // description
@@ -18,7 +18,7 @@ yargs(process.argv.slice(2))
                 .option('weapontype', {
                     alias: 'wt',
                     describe: 'returns a list of weapons that match the keyword',
-                    default: empty list,
+                    default: null,
                     type: 'string'
                 });
         },
@@ -30,7 +30,32 @@ yargs(process.argv.slice(2))
 		// app.getWeapons()
                 app.playPoker(args);
             } else {
-                console.log(“not a valid input”);
+                console.log("not a valid input");
+            }
+        }
+    )
+    .command(
+        // command
+        // <> indicate the command argument is mandatory
+        'searchForMonsters',
+        // description
+        'Used to search through monsters from the video game. Having no optional parameters will return all the monsters available in the API.',
+        // builder
+        (yargs) => {
+            return yargs    
+                .option('monsterSpecies', {
+                    alias: 'ms',
+                    describe: 'returns monsters filtered by desired monster species',
+                    default: null,
+                    type: 'string'
+                });
+        },
+        // handler
+        (args) => {
+            if (args.monsterSpecies) {
+                app.getMonsters(args);
+            } else {
+                console.log("not a valid input");
             }
         }
     )
