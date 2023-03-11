@@ -23,11 +23,17 @@ yargs(process.argv.slice(2))
                     describe: 'returns a list of weapons dependant on rarity',
                     default: null,
                     type: 'int'
-                });
+                })
+                .option('weaponID', {
+                    alias: 'id',
+                    describe: 'returns a single weapon based on their id',
+                    default: null,
+                    type: 'int'
+                })
         },
         // handler
         (args) => {
-            if (args.weaponType || args.weaponRarity) {
+            if (args.weaponType || args.weaponRarity || args.weaponID) {
                 // returns the list of weapons
                 app.getWeapons(args);
             } else {
@@ -50,11 +56,23 @@ yargs(process.argv.slice(2))
                     describe: 'returns monsters filtered by desired monster species',
                     default: null,
                     type: 'string'
-                });
+                })
+                .option('monsterType', {
+                    alias: 'mt',
+                    describe: 'returns monsters filtered by desired monster type',
+                    default: null,
+                    type: 'string'
+                })
+                .option('monsterID', {
+                    alias: 'id',
+                    describe: 'returns a single monster based on their id',
+                    default: null,
+                    type: 'int'
+                })
         },
         // handler
         (args) => {
-            if (args.monsterSpecies) {
+            if (args.monsterSpecies || args.monsterType || args.monsterID) {
                 app.getMonsters(args);
             } else {
                 console.log("not a valid input");
@@ -80,10 +98,16 @@ yargs(process.argv.slice(2))
                     default: null,
                     type: 'string'
                 })
+                .option('armorID', {
+                    alias: 'id',
+                    describe: 'returns a single armor piece based on their id',
+                    default: null,
+                    type: 'int'
+                })
         },
         // Handler
         (args) => {
-            if (args.armorType || args.armorRank) {
+            if (args.armorType || args.armorRank || args.armorID) {
                 app.getArmor(args);
             } else {
                 console.log('not a valid input');

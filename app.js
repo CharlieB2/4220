@@ -16,6 +16,10 @@ const getWeapons =  async (args) => {
 			const drawUrl = `${base}/weapons?q={\"rarity\":${args.weaponRarity}}`;
 			const res = await superagent.get(drawUrl);
 			console.log(res.body);
+		} else if (args.weaponID){
+			const drawUrl = `${base}/weapons/${args.weaponID}`;
+			const res = await superagent.get(drawUrl);
+			console.log(res.body);
 		}
 	} catch (error){
 			console.log(error);
@@ -23,16 +27,16 @@ const getWeapons =  async (args) => {
 }
 
 // Calls a weapon directly by using their id
-const selectWeapon = async (id) => {
-	try{
-		const drawUrl = `${base}/weapons/${id}`;
-		const res = await superagent.get(drawUrl);
-		console.log(res.body);
-	} catch (error) {
-		console.log(error);
-	}
+// const selectWeapon = async (id) => {
+// 	try{
+// 		const drawUrl = `${base}/weapons/${id}`;
+// 		const res = await superagent.get(drawUrl);
+// 		console.log(res.body);
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
 
-}
+// }
 
 // Main method to start the searchForMonsters command
 const getMonsters = async (args) => {
@@ -44,13 +48,21 @@ const getMonsters = async (args) => {
 			const drawUrl = `${base}/monsters?q={\"species\":\"${args.monsterSpecies.replace('-', ' ')}\"}`;
 			const res = await superagent.get(drawUrl);
 			console.log(res.body);
+		} else if (args.monsterType){
+			const drawUrl = `${base}/monsters?q={\"type\":\"${args.monsterType}\"}`;
+			const res = await superagent.get(drawUrl);
+			console.log(res.body);
+		} else if (args.monsterID){
+			const drawUrl = `${base}/monsters/${args.monsterID}`;
+			const res = await superagent.get(drawUrl);
+			console.log(res.body);
 		}
 	} catch (error) {
 		console.log(error);
 	}
 }
 
-// Method to search for armor pieces via type or rank
+// Method to search for armor pieces via type or rank, or select an individual piece
 const getArmor = async (args) => {
 	try {
 		if (args.armorType) {
@@ -59,6 +71,10 @@ const getArmor = async (args) => {
 			console.log(res.body);
 		} else if (args.armorRank) {
 			const drawUrl = `${base}/armor?q={\"rank\":\"${args.armorRank}\"}`
+			const res = await superagent.get(drawUrl);
+			console.log(res.body);
+		} else if (args.armorID){
+			const drawUrl = `${base}/armor/${args.armorID}`;
 			const res = await superagent.get(drawUrl);
 			console.log(res.body);
 		}
