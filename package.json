@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/CharlieB2/4220#readme",
   "dependencies": {
+    "prompts": "^2.4.2",
     "superagent": "^8.0.9",
     "yargs": "^17.7.1"
   }

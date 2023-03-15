@@ -53,30 +53,14 @@ yargs(process.argv.slice(2))
             return yargs    
                 .option('monsterSpecies', {
                     alias: 'ms',
-                    describe: 'returns monsters filtered by desired monster species',
+                    describe: 'returns monsters filtered by desired monster species. Use character - if there is a space with no caps.',
                     default: null,
                     type: 'string'
-                })
-                .option('monsterType', {
-                    alias: 'mt',
-                    describe: 'returns monsters filtered by desired monster type',
-                    default: null,
-                    type: 'string'
-                })
-                .option('monsterID', {
-                    alias: 'id',
-                    describe: 'returns a single monster based on their id',
-                    default: null,
-                    type: 'int'
                 })
         },
         // handler
         (args) => {
-            if (args.monsterSpecies || args.monsterType || args.monsterID) {
-                app.getMonsters(args);
-            } else {
-                console.log('not a valid input');
-            }
+           app.getMonsters(args);
         }
     )
 

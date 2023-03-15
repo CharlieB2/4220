@@ -38,29 +38,54 @@ const getWeapons =  async (args) => {
 
 // }
 
-// Main method to start the searchForMonsters command
-const getMonsters = async (args) => {
+// ---- Methods to get Monster stuff from API ----
+
+// Method to get all the monsters
+const getAllMonsters = async () => {
+
     try{
-        if(args.monsterSpecies){
+        const drawUrl = `${base}/monsters`;
+        const res = superagent.get(drawUrl);
+        return res;
+    } catch (error){
+        console.log(error);
+    }
+    // try{
+    //     if(args.monsterSpecies){
             // if monster species paramter is selcted search for every monster of that species
             // use .replace('-', ' ') as the API can contain two word species yet the cli doesn't accept a space between therefore
             // to counter it we use the character '-' between the words
             const drawUrl = `${base}/monsters?q={\"species\":\"${args.monsterSpecies.replace('-', ' ')}\"}`;
-            const res = await superagent.get(drawUrl);
-            console.log(res.body);
-        } else if (args.monsterType){
-            const drawUrl = `${base}/monsters?q={\"type\":\"${args.monsterType}\"}`;
-            const res = await superagent.get(drawUrl);
-            console.log(res.body);
-        } else if (args.monsterID){
-            const drawUrl = `${base}/monsters/${args.monsterID}`;
-            const res = await superagent.get(drawUrl);
-            console.log(res.body);
-        }
-    } catch (error) {
+    //         const res = await superagent.get(drawUrl);
+    //         console.log(res.body);
+}
+
+// Method to get all the monsters based on selected species
+const getMonsterBySpecies = async (args) => {
+    try{
+        // if monster species paramter is selcted search for every monster of that species
+        // use .replace('-', ' ') as the API can contain two word species yet the cli doesn't accept a space between therefore
+        // to counter it we use the character '-' between the words
+        const drawUrl = `${base}/monsters?q={\"species\":\"${args.replace('-', ' ')}\"}`;
+        const res = superagent.get(drawUrl);
+        return res;
+    } catch (error){
         console.log(error);
     }
 }
+
+const getMonsterById = async (id) => {
+    try{
+        // get monster from api by it's specified id
+        const drawUrl = `${base}/monsters/${id}`;
+        const res = superagent.get(drawUrl);
+        return res;
+    } catch (error){
+        console.log(error);
+    }
+}
+
+// ----
 
 // Method to search for armor pieces via type or rank, or select an individual piece
 const getArmor = async (args) => {
@@ -83,9 +108,8 @@ const getArmor = async (args) => {
     }
 }
 
-// Exports
 module.exports = {
-    getMonsters,
-    getWeapons,
-    getArmor
+    getAllMonsters,
+    getMonsterBySpecies,
+    getMonsterById
 };
