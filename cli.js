@@ -37,7 +37,7 @@ yargs(process.argv.slice(2))
                 // returns the list of weapons
                 app.getWeapons(args);
             } else {
-                console.log("not a valid input");
+                console.log('not a valid input');
             }
         }
     )
@@ -75,7 +75,7 @@ yargs(process.argv.slice(2))
             if (args.monsterSpecies || args.monsterType || args.monsterID) {
                 app.getMonsters(args);
             } else {
-                console.log("not a valid input");
+                console.log('not a valid input');
             }
         }
     )
