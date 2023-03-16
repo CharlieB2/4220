@@ -1,5 +1,6 @@
 const prompts = require('prompts');
 const api = require('./api.js');
+const history = require('./history.js');
 
 
 // Method to that handles getting the monsters logic
@@ -40,6 +41,10 @@ const getMonsters = async (args) => {
             // grab info from body
             const monsterInfo = getMonsterInfo.body;
 
+            // send what the user searched and the size of the results to history file
+            // send command that was sent and the json containing all the monsters
+            sendHistory(args._[0], monsterNames);
+
             // display info to user in a clean way
             console.log(`Monster: ${monsterInfo.name} \nType: ${monsterInfo.type} \nSpecies: ${monsterInfo.species} \nDescription: ${monsterInfo.description}`);
 
@@ -54,10 +59,27 @@ const getMonsters = async (args) => {
             const getMonsterInfo = await api.getMonsterById(selectMonster.monster);
             const monsterInfo = getMonsterInfo.body;
 
+            // since the user searched by species, add the species they selected into the search
+            const searchParameter = `${args._[0]} ${args.monsterSpecies}`;
+            sendHistory(searchParameter, monsterNames);
+
             console.log(`Monster: ${monsterInfo.name} \nType: ${monsterInfo.type} \nSpecies: ${monsterInfo.species} \nDescription: ${monsterInfo.description}`);
         }
     } catch (error) {
         console.log(error);
+    }
+}
+
+const sendHistory = async (searchParameter, resultLength) => {
+    try{
+        // get length of results by getting ids
+        const searchResultsLength = (Object.keys(resultLength)).length;
+        const userSearch = `${searchParameter}`;
+
+        // call the writeHistroy method to write onto file
+        await history.writeHistory(userSearch, searchResultsLength);
+    } catch (error){
+        console.log(error)
     }
 }
 
