@@ -3,40 +3,42 @@ const base = 'https://mhw-db.com';
 const { jar } = require('superagent');
 const superagent = require('superagent');
 
-const getWeapons =  async (args) => {
+// ---- Methods to aquire weapons from API ----
+
+// Method to get all weapons
+const getAllWeapons = async() => {
+    try {
+        const drawUrl =`${base}/weapons`;
+        const res = superagent.get(drawUrl);
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+//Method to get weapons by type
+const getWeaponsByType =  async (args) => {
     try{
-        // Depending on which filter was called, uses if statement to properly search weapons
-        if (args.weaponType) {
-            // Even though none of the weapon types have a space within them and rely on '-',
-            // .replace is used for convienence of user
-            const drawUrl = `${base}/weapons?q={\"type\":\"${args.weaponType.replace('-', ' ')}\"}`;
-            const res = await superagent.get(drawUrl);
-            console.log(res.body);
-        } else if (args.weaponRarity) {
-            const drawUrl = `${base}/weapons?q={\"rarity\":${args.weaponRarity}}`;
-            const res = await superagent.get(drawUrl);
-            console.log(res.body);
-        } else if (args.weaponID){
-            const drawUrl = `${base}/weapons/${args.weaponID}`;
-            const res = await superagent.get(drawUrl);
-            console.log(res.body);
-        }
+        // Even though none of the weapon types have a space within them and rely on '-',
+        // .replace is used for convienence of user
+        const drawUrl = `${base}/weapons?q={\"type\":\"${args.replace('-', ' ')}\"}`;
+        const res = superagent.get(drawUrl);
+        return res;    
     } catch (error){
         console.log(error);
     }
-}
+};
 
-// Calls a weapon directly by using their id
-// const selectWeapon = async (id) => {
-// 	try{
-// 		const drawUrl = `${base}/weapons/${id}`;
-// 		const res = await superagent.get(drawUrl);
-// 		console.log(res.body);
-// 	} catch (error) {
-// 		console.log(error);
-// 	}
-
-// }
+// Method to return a specific weapon via id
+const getWeaponById = async (id) => {
+    try {
+        const drawUrl = `${base}/weapons/${id}`;
+        const res = superagent.get(drawUrl);
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 // ---- Methods to get Monster stuff from API ----
 
@@ -50,15 +52,7 @@ const getAllMonsters = async () => {
     } catch (error){
         console.log(error);
     }
-    // try{
-    //     if(args.monsterSpecies){
-            // if monster species paramter is selcted search for every monster of that species
-            // use .replace('-', ' ') as the API can contain two word species yet the cli doesn't accept a space between therefore
-            // to counter it we use the character '-' between the words
-            const drawUrl = `${base}/monsters?q={\"species\":\"${args.monsterSpecies.replace('-', ' ')}\"}`;
-    //         const res = await superagent.get(drawUrl);
-    //         console.log(res.body);
-}
+};
 
 // Method to get all the monsters based on selected species
 const getMonsterBySpecies = async (args) => {
@@ -72,7 +66,7 @@ const getMonsterBySpecies = async (args) => {
     } catch (error){
         console.log(error);
     }
-}
+};
 
 const getMonsterById = async (id) => {
     try{
@@ -83,33 +77,51 @@ const getMonsterById = async (id) => {
     } catch (error){
         console.log(error);
     }
-}
+};
 
-// ----
+// ---- Methods to aquire armor pieces from API ----
 
-// Method to search for armor pieces via type or rank, or select an individual piece
-const getArmor = async (args) => {
+// Method to return all armor pieces
+const getAllArmor = async() => {
     try {
-        if (args.armorType) {
-            const drawUrl = `${base}/armor?q={\"type\":\"${args.armorType}\"}`
-            const res = await superagent.get(drawUrl);
-            console.log(res.body);
-        } else if (args.armorRank) {
-            const drawUrl = `${base}/armor?q={\"rank\":\"${args.armorRank}\"}`
-            const res = await superagent.get(drawUrl);
-            console.log(res.body);
-        } else if (args.armorID){
-            const drawUrl = `${base}/armor/${args.armorID}`;
-            const res = await superagent.get(drawUrl);
-            console.log(res.body);
-        }
+        const drawUrl = `${base}/armor`;
+        const res = superagent.get(drawUrl);
+        return res;
     } catch(error) {
         console.log(error);
     }
-}
+};
+
+// Method to search for armor pieces by rank
+const getArmorByRank = async (args) => {
+    try {
+        const drawUrl = `${base}/armor?q={\"rank\":\"${args}\"}`;
+        const res = superagent.get(drawUrl);
+        return res;
+    } catch(error) {
+        console.log(error);
+    }
+};
+
+// Method to return a specific armor piece via id
+const getArmorById = async(id) => {
+    try {
+        const drawUrl = `${base}/armor/${id}`;
+        const res = superagent.get(drawUrl);
+        return res;
+    } catch(error) {
+        console.log(error);
+    }
+};
 
 module.exports = {
     getAllMonsters,
     getMonsterBySpecies,
-    getMonsterById
+    getMonsterById,
+    getAllWeapons,
+    getWeaponsByType,
+    getWeaponById,
+    getAllArmor,
+    getArmorByRank,
+    getArmorById
 };

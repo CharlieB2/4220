@@ -17,7 +17,7 @@ const writeHistory = async (userSearch, searchResultsLength) => {
     }catch (error){
         console.log(error);
     }
-}
+};
 
 module.exports = {
     writeHistory

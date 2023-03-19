@@ -17,28 +17,12 @@ yargs(process.argv.slice(2))
                     describe: 'returns a list of weapons that match the keyword',
                     default: null,
                     type: 'string'
-                })
-                .option('weaponRarity', {
-                    alias: 'r',
-                    describe: 'returns a list of weapons dependant on rarity',
-                    default: null,
-                    type: 'int'
-                })
-                .option('weaponID', {
-                    alias: 'id',
-                    describe: 'returns a single weapon based on their id',
-                    default: null,
-                    type: 'int'
-                })
+                });
         },
         // handler
         (args) => {
-            if (args.weaponType || args.weaponRarity || args.weaponID) {
-                // returns the list of weapons
-                app.getWeapons(args);
-            } else {
-                console.log('not a valid input');
-            }
+            // returns the list of weapons
+            app.getWeapons(args);
         }
     )
 
@@ -56,11 +40,11 @@ yargs(process.argv.slice(2))
                     describe: 'returns monsters filtered by desired monster species. Use character - if there is a space with no caps.',
                     default: null,
                     type: 'string'
-                })
+                });
         },
         // handler
         (args) => {
-           app.getMonsters(args);
+            app.getMonsters(args);
         }
     )
 
@@ -70,32 +54,16 @@ yargs(process.argv.slice(2))
         // Builder
         (yargs) => {
             return yargs
-                .option('armorType', {
-                    alias: 'ap',
-                    describe: 'Returns all armor pieces based on type. (i.e. chest, head, etc.)',
-                    default: null,
-                    type: 'string'
-                })
                 .option('armorRank', {
                     alias: 'ar',
                     describe: 'Returns all armor pieces based on rank.',
                     default: null,
                     type: 'string'
-                })
-                .option('armorID', {
-                    alias: 'id',
-                    describe: 'returns a single armor piece based on their id',
-                    default: null,
-                    type: 'int'
-                })
+                });
         },
         // Handler
         (args) => {
-            if (args.armorType || args.armorRank || args.armorID) {
-                app.getArmor(args);
-            } else {
-                console.log('not a valid input');
-            }
+            app.getArmor(args);
         }
     )
     .help().argv;
