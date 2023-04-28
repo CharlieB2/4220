@@ -1,0 +1,22 @@
+{
+  "name": "4220",
+  "version": "1.0.0",
+  "description": "This program will take strings and return relevant objects within the Monster Hunter API system for users to select and inspect.",
+  "main": "api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CharlieB2/4220.git"
+  },
+  "author": "Carlos Hernandez, Francisco Contreras",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CharlieB2/4220/issues"
+  },
+  "homepage": "https://github.com/CharlieB2/4220#readme",
+  "dependencies": {
+    "superagent": "^8.0.9"
+  }
+}
