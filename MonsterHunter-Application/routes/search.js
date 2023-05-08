@@ -47,4 +47,31 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/:id/details', async (req, res) => {
+    try {
+        // grab identifier and query paramter
+        const { params, query } = req;
+        const { id } = params;
+        const { monsterSpecies } = query;
+
+        // initialize object and call api to retrieve monster by Id
+        let monster = {};
+        monster = await monsterHunterDB.getMonsterById(id);
+        const formatedMonster = {
+            display: monster.name,
+            id: monster.id
+        }
+        const results = {
+            searchTerm: monsterSpecies,
+            results: formatedMonster
+        }
+
+        // display monster to user and save history to database
+        res.json(monster);
+        database.saveSelections('History', results);
+    } catch (error) {
+        res.status(500).json(error.toString());
+    }
+})
+
 module.exports = router;

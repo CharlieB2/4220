@@ -48,9 +48,53 @@ const mongo = () => {
         }
     }
 
+    async function saveSelections (collectionName, data){
+        try{
+            // grab collection and check if searchTerm exists in the database;
+            const collection = db.collection(collectionName);
+            const type = await collection.find({searchTerm: data.searchTerm}).next();
+
+            // if search term exists in the database, just update the recently searched
+            if(type.selections){
+                type.selections = [... type.selections, data.results]
+            } else {
+                type.selections = [data.results];
+            }
+
+            await collection.updateOne({searchTerm: data.searchTerm}, {$set:{selections: type.selections}});
+        } catch (error){
+            console.log(error);
+        }
+    }
+
+    async function returnHistory (collectionName, searchTerm){
+        try{
+            // grabbing collection
+            const collection = db.collection(collectionName);
+
+            // creating object to hold results
+            results = {};
+
+            // if no search term is provided, returns all history
+            // if term is provided, returns related history
+            if (!searchTerm){
+                console.log("no search term");
+                return await collection.find({}).toArray()
+            } else {
+                console.log("search term");
+                return await collection.find({searchTerm}).next();
+                
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return{
         connect,
-        save
+        save,
+        saveSelections,
+        returnHistory
     };
 };
 
